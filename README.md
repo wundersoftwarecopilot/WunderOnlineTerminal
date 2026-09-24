@@ -207,14 +207,19 @@ the full UI and the privacy guarantees.
 
 The repository contains a ready-to-use workflow: `.github/workflows/pages.yml`.
 
-1. Push the project to GitHub, on the `main` branch.
-2. In the repository open **Settings → Pages** and set **Source: GitHub Actions**.
-3. Every push to `main` runs type checks, unit tests, the production build (with the
-   privacy checks) and the end-to-end tests, then deploys `dist/` to GitHub Pages.
-   Pull requests are tested but not deployed. The workflow can also be started manually
-   (*Actions → Test, build and deploy to GitHub Pages → Run workflow*).
+1. In the repository open **Settings → Pages → Build and deployment** and set
+   **Source: GitHub Actions** (not *Deploy from a branch*).
+2. Push to the repository's **default branch** (e.g. `main`), or start the workflow manually:
+   *Actions → Test, build and deploy to GitHub Pages → Run workflow*.
+3. The workflow runs type checks, unit tests, the production build (with the privacy checks)
+   and the end-to-end tests, then deploys `dist/` to GitHub Pages. Other branches and pull
+   requests are tested but not deployed.
 4. The site is published at `https://<user>.github.io/<repository>/`
    (or on your custom domain, configurable in **Settings → Pages**).
+
+> **Blank page with 404 errors for `src/main.ts` or `favicon.svg`?** Pages is set to
+> *Deploy from a branch*, so GitHub is serving the unbuilt source files. Switch the source to
+> **GitHub Actions** and run the workflow.
 
 The build is reproducible (`npm ci` with the committed `package-lock.json`, pinned dependency
 versions, Node version from `.nvmrc`) and uses relative paths, so it works from any sub-path.
@@ -299,4 +304,5 @@ esportato in `.txt` o `.csv` solo su richiesta.
   testo o HEX, fine riga None/CR/LF/CRLF, auto-scroll, pulizia, esportazione.
 - **Requisiti**: Chrome, Edge o Opera su HTTPS (GitHub Pages è in HTTPS). Firefox e Safari non
   supportano queste API: la pagina lo segnala con un messaggio localizzato.
-- **Pubblicazione**: *Settings → Pages → Source: GitHub Actions*, poi push su `main`.
+- **Pubblicazione**: *Settings → Pages → Source: **GitHub Actions*** (non *Deploy from a branch*),
+  poi push sul branch predefinito oppure *Actions → Run workflow*.

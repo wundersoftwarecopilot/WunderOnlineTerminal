@@ -1,8 +1,9 @@
 name: Test, build and deploy to GitHub Pages
 
+# Every push and pull request is tested; only the repository's default
+# branch (e.g. `main`) is deployed to GitHub Pages.
 on:
   push:
-    branches: [main]
   pull_request:
   workflow_dispatch:
 
@@ -54,14 +55,14 @@ jobs:
           retention-days: 7
 
       - name: Upload site artifact
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && github.ref_name == github.event.repository.default_branch
         uses: actions/upload-pages-artifact@v4
         with:
           path: dist
 
   deploy:
     name: Deploy
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request' && github.ref_name == github.event.repository.default_branch
     needs: build
     runs-on: ubuntu-latest
     permissions:
